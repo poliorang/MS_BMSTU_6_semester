@@ -20,18 +20,15 @@ function lab1()
 
         set(gca, "xtick", bins);
         set(gca, "ytick", sort(heights));
-        
         set(gca, "xlim", [min(bins) - 1, max(bins) + 1]);
         bar(centers, heights, 1);
         
         nodes = (m_min - 5):(S / 250):(m_max + 5);
-
         X_pdf = normpdf(nodes, mu, sqrt(S));
         plot(nodes, X_pdf, "r");
     end
 
     function mycdf()
-
         heights = zeros(1, m + 2);
         bins = [(min(bins) - 0.5) bins];
         counts = [0 counts 0];
@@ -42,11 +39,6 @@ function lab1()
             acc = acc + counts(i);
             heights(i) = acc / n;
         end
-
-        nodes = (m_min - 2):(S / 100):(m_max + 2);
-        X_cdf = normcdf(nodes, mu, sqrt(S));
-        plot(nodes, X_cdf, "r");
-
 
         for i = 2:m
             fprintf("x = %f : F(x) = %f\n", bins(i), heights(i));
@@ -59,8 +51,11 @@ function lab1()
         set(gca, "xtick", binsSet);
         set(gca, "ylim", [0, 1.5]);
         set(gca, "ytick", heightsSet);
-
         stairs(bins, heights);
+
+        nodes = (m_min - 2):(S / 100):(m_max + 2);
+        X_cdf = normcdf(nodes, mu, sqrt(S));
+        plot(nodes, X_cdf, "r");
     end
     
     X = [-0.45,-0.33,2.92,-1.25,-1.20,0.05,-0.53,-0.19,1.49,0.67,...
@@ -90,7 +85,6 @@ function lab1()
     % Вычисление размаха выборки
     
     r = m_max - m_min;
-    h = r / 8;
     fprintf("2. Размах выборки: R = %f.\n", r);
     fprintf("----------------------------------------\n");
 
@@ -108,7 +102,7 @@ function lab1()
     m = floor(log2(n)) + 2;
     bins = [];
     cur = m_min;
-    delta = r / m ;
+    delta = r / m;
 
     for i = 1:(m + 1)
         bins(i) = cur;
@@ -167,3 +161,4 @@ function lab1()
     ylabel('F')
     hold off;
 end
+
