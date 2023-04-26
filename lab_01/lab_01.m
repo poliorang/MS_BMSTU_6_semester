@@ -154,7 +154,6 @@ function lab1()
     myhist();
     xlabel('X')
     ylabel('P')
-    % print -djpg hist.jpg
     hold off;
     fprintf("----------------------------------------\n");
 
@@ -166,6 +165,5 @@ function lab1()
     mycdf();
     xlabel('X')
     ylabel('F')
-    % print -djpg cdf.jpg
     hold off;
 end
