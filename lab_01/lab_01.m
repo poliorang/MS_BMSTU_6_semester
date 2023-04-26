@@ -1,6 +1,4 @@
 function lab1()
-    % import pkg.*
-    % pkg load statistics
 
     function myhist()
 
@@ -171,4 +169,3 @@ function lab1()
     % print -djpg cdf.jpg
     hold off;
 end
-
