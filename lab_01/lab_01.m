@@ -1,7 +1,6 @@
 function lab1()
 
     function myhist()
-
         centers = zeros(1, m);
         heights = zeros(1, m);
 
@@ -28,32 +27,32 @@ function lab1()
         plot(nodes, X_pdf, "r");
     end
 
+    function [nt] = count_nt(t, X)
+        tolerance = 1e-4;
+        nt = 0;
+        for x_index = 1:length(X)
+            if (X(x_index) - t < tolerance)
+                nt = nt + 1;
+            end
+        end
+    end
+
     function mycdf()
-        heights = zeros(1, m + 2);
-        bins = [(min(bins) - 0.5) bins];
-        counts = [0 counts 0];
-
-        acc = 0;
-        m = m + 2;
-        for i = 2:m
-            acc = acc + counts(i);
-            heights(i) = acc / n;
+        x_tiks = unique(X);
+        x_tiks(end + 1) = x_tiks(end) + 1;
+        heights = zeros([1 length(x_tiks)]);
+        for i = 1:length(x_tiks)
+            heights(i) = count_nt(x_tiks(i), X) / n;
         end
 
-        for i = 2:m
-            fprintf("x = %f : F(x) = %f\n", bins(i), heights(i));
-        end
+        bin_Set = unique(bins);
+        heights_Set = unique(heights);
+        
+        set(gca, "xtick", bin_Set);
+        set(gca, "ylim", [0, max(heights_Set) + 0.3]);
+        stairs(x_tiks, heights);
 
-        binsSet = bins;
-        heightsSet = heights;
-        heightsSet(end) = [];
-
-        set(gca, "xtick", binsSet);
-        set(gca, "ylim", [0, 1.5]);
-        set(gca, "ytick", heightsSet);
-        stairs(bins, heights);
-
-        nodes = (m_min - 2):(S / 100):(m_max + 2);
+        nodes = (m_min - 2):(S / 250):(m_max + 2);
         X_cdf = normcdf(nodes, mu, sqrt(S));
         plot(nodes, X_cdf, "r");
     end
@@ -69,7 +68,6 @@ function lab1()
         0.65,0.35,-0.37,-0.50,-0.73,0.63,0.33,1.56,-0.98,0.85,0.56,...
         -1.07,1.47,1.44,1.91,0.24,1.34,0.99,1.27,0.11,0.22,-0.25,0.35,...
         -0.03,-0.56,-0.79,2.41,-0.45,-0.44,0.07,0.64,0.69,0.10,-0.28];
-    
    
     X = sort(X);
 
@@ -146,8 +144,8 @@ function lab1()
     hold on;
     grid on;
     myhist();
-    xlabel('X')
-    ylabel('P')
+    xlabel('x')
+    ylabel('fn(x)')
     hold off;
     fprintf("----------------------------------------\n");
 
@@ -157,8 +155,8 @@ function lab1()
     hold on;
     grid on;
     mycdf();
-    xlabel('X')
-    ylabel('F')
+    xlabel('x')
+    ylabel('Fn(x)')
     hold off;
 end
 
